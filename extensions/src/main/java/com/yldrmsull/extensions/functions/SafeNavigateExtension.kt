@@ -30,7 +30,6 @@ fun NavController.navigateSafely(
         {
             e.printStackTrace()
         }
-
     }
 
 

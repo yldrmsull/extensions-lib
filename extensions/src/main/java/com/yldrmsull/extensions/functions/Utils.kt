@@ -20,42 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-fun LifecycleCoroutineScope.coroutineMainThread(f: () -> Unit)
-    {
-        launch {
-            withContext(Dispatchers.Main)
-            {
-                f.invoke()
-            }
-        }
-    }
-
-    fun ImageView.loadFromUrl(url: String): ViewTarget<ImageView?, Drawable?>
-    {
-        return this.loadFromUrl(url, 100, null, null)
-    }
-
-    fun ImageView.loadFromUrl(
-        url: String,
-        quality: Int,
-        width: Int?,
-        height: Int?): ViewTarget<ImageView?, Drawable?>
-    {
-        var requestOptions = RequestOptions()
-
-        if (width != null && height != null)
-        {
-            requestOptions = requestOptions.override(width, height)
-            requestOptions = requestOptions.centerCrop()
-        }
-
-        return Glide.with(this)
-            .load(if (url.contains("file:")) Uri.parse(url) else url)
-            .encodeQuality(quality)
-            .apply(requestOptions)
-            .into(this)
-    }
-
+class Utils {
     fun isGenymotionEmulator(): Boolean
     {
         val buildManufacturer = Build.MANUFACTURER
@@ -89,3 +54,42 @@ fun LifecycleCoroutineScope.coroutineMainThread(f: () -> Unit)
             e.printStackTrace()
         }
     }
+}
+
+
+fun LifecycleCoroutineScope.coroutineMainThread(f: () -> Unit)
+{
+    launch {
+        withContext(Dispatchers.Main)
+        {
+            f.invoke()
+        }
+    }
+}
+
+fun ImageView.loadFromUrl(url: String): ViewTarget<ImageView?, Drawable?>
+{
+    return this.loadFromUrl(url, 100, null, null)
+}
+
+fun ImageView.loadFromUrl(
+    url: String,
+    quality: Int,
+    width: Int?,
+    height: Int?): ViewTarget<ImageView?, Drawable?>
+{
+    var requestOptions = RequestOptions()
+
+    if (width != null && height != null)
+    {
+        requestOptions = requestOptions.override(width, height)
+        requestOptions = requestOptions.centerCrop()
+    }
+
+    return Glide.with(this)
+        .load(if (url.contains("file:")) Uri.parse(url) else url)
+        .encodeQuality(quality)
+        .apply(requestOptions)
+        .into(this)
+}
+
